@@ -1,0 +1,36 @@
+﻿@page "{id:int?}"
+@model BeautyShop.EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@if (Model.Person.Id==0)
+{
+    <h1>Add New Customer</h1>
+}
+else
+{
+    <h1>Edit Customer: @Model.Person.Name</h1>
+}
+
+
+<form method="post">
+    <input type="hidden" asp-for="Person.Id" />
+    <div class="form-row">
+        <div class="col">
+            <label asp-for="@Model.Person.Name"></label>
+            <input type="text" class="form-control" asp-for="@Model.Person.Name">
+            <span asp-validation-for="Person.Name" class="text-danger"></span>
+        </div>
+        <div class="col">
+            <label asp-for="@Model.Person.MembershipId"></label>
+            <select type="text" class="form-control" asp-for="@Model.Person.MembershipId" asp-items="@Model.MembershipTypes">
+                <option value="">No Membership</option>
+            </select>
+        </div>
+
+    </div>
+    <div style="margin-top:2%">
+        <button class="btn btn-success" type="submit">Save</button>
+    </div>   
+</form>

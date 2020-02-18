@@ -1,0 +1,27 @@
+﻿@page
+@model BeautyShop.BuyModel
+@{
+    ViewData["Title"] = "Buy";
+}
+
+<h1>Buy</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="@Model.Visit.Id" />
+    <div class="form-group">
+        <label asp-for="@Model.Visit.Person.Name"></label>
+        <select asp-for="@Model.Visit.Person.Id" asp-items="Model.CustomerNames" class="form-control">
+            <option value="">Select Customer</option>
+        </select>
+    </div>
+    <div class="row">
+        <div class="col">
+            <input type="number" class="form-control" placeholder="Buy Product" name="product">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Last name">
+        </div>
+    </div>
+    <button class="btn btn-success" type="submit" asp-page-handler="Buy">Buy</button>
+    <a class="btn btn-primary" asp-page="./List">Done</a>
+</form>

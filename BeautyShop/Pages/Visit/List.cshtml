@@ -1,0 +1,37 @@
+﻿@page
+@model BeautyShop.Pages.Visit.ListModel
+@{
+    ViewData["Title"] = "List";
+    var x = 1;
+}
+
+<h1>List of Visits</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Membership</th>
+            <th scope="col">Pay</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var visit in Model.Visits)
+        {
+            <tr>
+                <td>@x</td>
+                <td>@visit.Person.Name</td>
+                <td>@visit.Person.Membership</td>
+                <td>@visit.TotalPay()</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot style="visibility:@(Model.Visits.Any()?"hidden":"visible")">
+        <tr>
+            <td colspan="5" class="text-danger">There are no visits!</td>
+        </tr>
+    </tfoot>
+</table>
+<a class="btn btn-success" asp-page="/Visit/Buy">Add Visit</a>
+

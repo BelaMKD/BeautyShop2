@@ -1,0 +1,51 @@
+﻿@page
+@model BeautyShop.ListModel
+@{
+    ViewData["Title"] = "List";
+    var x = 1;
+}
+
+<h1>List</h1>
+<form method="get">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search by Name" asp-for="@Model.SearchName">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+        </div>
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Membership</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var person in Model.People)
+            {
+                <tr>
+                    <td>@x</td>
+                    <td>@person.Name</td>
+                    <td>@person.Membership?.GetMembrshipType()</td>
+                    <td><a class="btn btn-primary" asp-route-id="@person.Id" asp-page="./Edit">Edit</a></td>
+                </tr>
+            }
+        </tbody>
+        <tfoot style="visibility:@(Model.People.Any()?"hidden":"visible")">
+            <tr>
+                <td colspan="4" class="text-danger">There are no customers!</td>
+            </tr>
+        </tfoot>
+    </table>
+    <a class="btn btn-success" asp-page="./Edit">Add Customer</a>
+    @if (Model.Message != null)
+    {
+        <div style="margin:3% auto">
+            <span class="alert alert-info row">@Model.Message</span>
+        </div>
+    }
+</form>
