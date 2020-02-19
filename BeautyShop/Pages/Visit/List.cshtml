@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "List";
     var x = 1;
+    var y = 1;
 }
 
 <h1>List of Visits</h1>
@@ -22,9 +23,10 @@
             <tr>
                 <td>@x</td>
                 <td>@visit.Person.Name</td>
-                <td>@visit.Person.Membership</td>
-                <td>@visit.TotalPay()</td>
+                <td>@visit.Person.Membership?.GetMembrshipType()</td>
+                <td>$ @visit.TotalPay()</td>
             </tr>
+            x++;
         }
     </tbody>
     <tfoot style="visibility:@(Model.Visits.Any()?"hidden":"visible")">
@@ -32,6 +34,29 @@
             <td colspan="5" class="text-danger">There are no visits!</td>
         </tr>
     </tfoot>
+    <tfoot style="visibility:@(Model.Visits.Any()?"visible":"hidden")">
+        <tr>
+            <td colspan="4"><h4>Total Pay by customer:</h4></td>
+        </tr>
+
+        @foreach (var visit in Model.Visits.GroupBy(x => x.Person.Id))
+        {
+            <tr>
+                <td>@y</td>
+                <td>@visit.First().Person.Name</td>
+                <td>@visit.First().Person.Membership?.GetMembrshipType()</td>
+                <td>$ @visit.Sum(x => x.TotalPay())</td>
+            </tr>
+            y++;
+        }
+    </tfoot>
 </table>
-<a class="btn btn-success" asp-page="/Visit/Buy">Add Visit</a>
+
+<a class="btn btn-success" asp-page="/Visit/Buy">Shop</a>
+@if (Model.Message!=null)
+{
+<div class="row" style="margin:1% auto">
+    <span class="col alert alert-info">@Model.Message</span>
+</div>
+}
 

@@ -18,7 +18,8 @@ namespace BeautyShop
         public List<SelectListItem> CustomerNames { get; set; }
         [BindProperty]
         public Visit Visit { get; set; }
-        public BuyModel(IVisitInMemory visitInMemory,IPersonInMemory personInMemory)
+        public string Message { get; set; }
+        public BuyModel(IVisitInMemory visitInMemory, IPersonInMemory personInMemory)
         {
             this.visitInMemory = visitInMemory;
             this.personInMemory = personInMemory;
@@ -33,24 +34,44 @@ namespace BeautyShop
             }).ToList();
         }
 
-        //public IActionResult OnPost()
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var person = personInMemory.GetPerson(Visit.Person.Id);
-        //        Visit.Person = person;
-        //        Visit = visitInMemory.AddVisit(Visit);
-        //        TempData["Message"] = "Thank you for your purchase!";
-        //    }
-        //}
-
-        public IActionResult OnPostBuy(double product)
+        public IActionResult OnPost()
         {
-            if (product>0)
+            if (ModelState.IsValid)
             {
-                Visit.Products.Add(product);
+                var person = personInMemory.GetPerson(Visit.PersonId);
+                Visit.Person = person;
+                Visit = visitInMemory.AddVisit(Visit);
+                TempData["Message"] = "Thank you for your purchase!";
+                return RedirectToPage("./List");
             }
+            CustomerNames = personInMemory.GetPeople().Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            }).ToList();
             return Page();
         }
+
+        public IActionResult OnPostBuy(double product, double service)
+        {
+            var person = personInMemory.GetPerson(Visit.PersonId);
+            Visit.Person = person;
+            if (product > 0)
+            {
+                Visit.AddProduct(product);
+            }
+            if (service > 0)
+            {
+                Visit.AddService(service);
+            }
+
+            Message = $"Total expences: {Visit.TotalPay()}";
+            CustomerNames = personInMemory.GetPeople().Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            }).ToList();
+            return Page();
+        } 
     }
 }

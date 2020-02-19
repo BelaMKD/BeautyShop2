@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace BeautyShop.Core
@@ -7,6 +8,8 @@ namespace BeautyShop.Core
     public class Visit
     {
         public int Id { get; set; }
+        [Required, Display(Name = "Customer")]
+        public int PersonId { get; set; }
         public Person Person { get; set; }
         public List<double> Products { get; set; }
         public List<double> Services { get; set; }

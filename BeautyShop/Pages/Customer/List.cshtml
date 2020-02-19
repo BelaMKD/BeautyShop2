@@ -33,6 +33,7 @@
                     <td>@person.Membership?.GetMembrshipType()</td>
                     <td><a class="btn btn-primary" asp-route-id="@person.Id" asp-page="./Edit">Edit</a></td>
                 </tr>
+                x++;
             }
         </tbody>
         <tfoot style="visibility:@(Model.People.Any()?"hidden":"visible")">
@@ -42,6 +43,7 @@
         </tfoot>
     </table>
     <a class="btn btn-success" asp-page="./Edit">Add Customer</a>
+    <a class="btn btn-dark" asp-page="/Visit/Buy">Shop</a>
     @if (Model.Message != null)
     {
         <div style="margin:3% auto">

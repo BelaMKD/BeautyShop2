@@ -13,7 +13,8 @@ namespace BeautyShop.Pages.Visit
     {
         private readonly IVisitInMemory visitInMemory;
         private readonly IPersonInMemory personInMemory;
-
+        [TempData]
+        public string Message { get; set; }
         public IEnumerable<Core.Visit> Visits { get; set; }
         public IEnumerable<Person> People { get; set; }
         public ListModel(IVisitInMemory visitInMemory, IPersonInMemory personInMemory)

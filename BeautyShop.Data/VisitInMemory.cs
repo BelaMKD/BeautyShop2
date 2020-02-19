@@ -16,6 +16,7 @@ namespace BeautyShop.Data
         public Visit AddVisit(Visit visit)
         {
             visit.Id = Visits.Any() ? Visits.Max(x => x.Id) + 1 : 1;
+            Visits.Add(visit);
             return visit;
         }
 

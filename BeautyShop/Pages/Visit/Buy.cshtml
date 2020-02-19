@@ -8,20 +8,40 @@
 
 <form method="post">
     <input type="hidden" asp-for="@Model.Visit.Id" />
-    <div class="form-group">
-        <label asp-for="@Model.Visit.Person.Name"></label>
-        <select asp-for="@Model.Visit.Person.Id" asp-items="Model.CustomerNames" class="form-control">
-            <option value="">Select Customer</option>
-        </select>
-    </div>
-    <div class="row">
-        <div class="col">
-            <input type="number" class="form-control" placeholder="Buy Product" name="product">
+        <div class="form-row" style="margin:1% auto">
+            <div class="col">
+                <select asp-for="@Model.Visit.PersonId" asp-items="Model.CustomerNames" class="form-control">
+                    <option value="">Select Customer</option>
+                </select>
+                <span asp-validation-for="Visit.PersonId"></span>
+
+            </div>
+            <div class="col">
+                <a class="btn btn-success" asp-page="/Customer/Edit">Add new Customer</a>
+            </div>
         </div>
-        <div class="col">
-            <input type="text" class="form-control" placeholder="Last name">
+        <div class="form-row">
+            <div class="col">
+                <input type="number" class="form-control" placeholder="Buy Product" name="product">
+            </div>
+            <div class="col">
+                <input type="number" class="form-control" placeholder="Buy Service" name="service">
+            </div>
+            <div class="col">
+                <button class="btn btn-dark" type="submit" asp-page-handler="Buy">Buy</button>
+            </div>
         </div>
-    </div>
-    <button class="btn btn-success" type="submit" asp-page-handler="Buy">Buy</button>
-    <a class="btn btn-primary" asp-page="./List">Done</a>
+    <button style="margin:1% auto" class="btn btn-primary" type="submit" asp-page-handler="">Done</button>
+     @for (int i = 0; i < Model.Visit.Products.Count; i++)
+     {
+         <input type="hidden" asp-for="@Model.Visit.Products[i]" />
+     }
+     @for (int i = 0; i < Model.Visit.Services.Count; i++)
+     {
+         <input type="hidden" asp-for="@Model.Visit.Services[i]" />
+     }
 </form>
+@if (Model.Message!=null)
+	{
+		 <span class="text-info">@Model.Message</span>
+	}
